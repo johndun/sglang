@@ -291,7 +291,10 @@ def launch_server(server_args, pipe_finish_writer):
 
     # Allocate ports
     can_use_ports = alloc_usable_network_port(
-        num=4 + server_args.tp_size, used_list=(server_args.port,)
+        num=4 + server_args.tp_size,
+        used_list=(server_args.port,),
+        start=server_args.port,
+        end=server_args.port + 999
     )
     port_args = PortArgs(
         tokenizer_port=can_use_ports[0],
@@ -417,9 +420,9 @@ class Runtime:
         schedule_heuristic: str = "lpm",
         random_seed: int = 42,
         log_level: str = "error",
+        port: int = 30000
     ):
         host = "127.0.0.1"
-        port = alloc_usable_network_port(1)[0]
         self.server_args = ServerArgs(
             model_path=model_path,
             tokenizer_path=tokenizer_path,
